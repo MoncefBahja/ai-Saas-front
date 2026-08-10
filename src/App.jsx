@@ -7,6 +7,9 @@ export default function App() {
   const [imageUrl, setImageUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // 🔗 رابط الـ API ديالك فـ Vercel
+  const API_URL = 'https://ai-saas-back.vercel.app/generate';
+
   const handleGenerate = async (e) => {
     e.preventDefault();
     if (!prompt.trim()) return;
@@ -15,28 +18,29 @@ export default function App() {
     setImageUrl(null);
 
     try {
-      const response = await fetch('http://localhost:8000/generate', {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt, aspect_ratio: aspectRatio }),
       });
 
       if (!response.ok) {
-        throw new Error('Server Error');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || 'Server Error');
       }
 
       const data = await response.json();
       setImageUrl(data.image_url);
     } catch (error) {
       console.error('Error:', error);
-      alert('وقع خطأ فـ التواصل مع السيرفر، تأكد بلي Python خدام.');
+      alert(`وقع خطأ: ${error.message || 'تعذر التواصل مع السيرفر'}`);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white font-sans antialiased">
+    <div className="min-h-screen bg-gray-950 text-white font-sans antialiased" dir="rtl">
       {/* Header */}
       <header className="border-b border-gray-800 px-8 py-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
@@ -57,7 +61,7 @@ export default function App() {
             تحويل الأفكار إلى صور بذكاء عالٍ
           </h1>
           <p className="text-gray-400 text-sm">
-            اكتب وصفك باللغة الإنجليزية واحصل على صور فائقة الدقة خلال ثوانٍ.
+            اكتب وصفك بالدارجة المغربية أو الإنجليزية واحصل على صور فائقة الدقة خلال ثوانٍ.
           </p>
         </div>
 
@@ -73,7 +77,7 @@ export default function App() {
                   rows="4"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  placeholder="A futuristic cyberpunk city in Morocco, highly detailed..."
+                  placeholder="تاجر مغربي فـ سوق قديم، مليء بالألوان والتفاصيل الدقيقة..."
                   className="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
@@ -103,12 +107,12 @@ export default function App() {
               <button
                 type="submit"
                 disabled={isLoading || !prompt.trim()}
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:opacity-50 text-white font-semibold py-3.5 px-6 rounded-xl transition flex items-center justify-center gap-2 shadow-lg"
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:opacity-50 text-white font-semibold py-3.5 px-6 rounded-xl transition flex items-center justify-center gap-2 shadow-lg cursor-pointer disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    جاري التوليد...
+                    جاري الترجمة والتوليد...
                   </>
                 ) : (
                   <>
@@ -126,7 +130,7 @@ export default function App() {
               {isLoading ? (
                 <div className="text-center space-y-3">
                   <Loader2 className="w-10 h-10 animate-spin text-indigo-500 mx-auto" />
-                  <p className="text-gray-400 text-sm">الذكاء الاصطناعي يرسم الآن...</p>
+                  <p className="text-gray-400 text-sm">الذكاء الاصطناعي يترجم ويرسم الآن...</p>
                 </div>
               ) : imageUrl ? (
                 <img src={imageUrl} alt="Result" className="w-full h-full object-contain rounded-lg" />
@@ -142,10 +146,10 @@ export default function App() {
               <div className="mt-4 flex gap-3">
                 <a
                   href={imageUrl}
-                  download="generated-image.png"
-                  className="flex-1 flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 text-white py-2.5 rounded-xl text-sm transition"
+                  download="darija-ai-image.png"
+                  className="flex-1 flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 text-white py-2.5 rounded-xl text-sm font-semibold transition"
                 >
-                  <Download className="w-4 h-4" /> تحميل
+                  <Download className="w-4 h-4" /> تحميل الصورة
                 </a>
               </div>
             )}
