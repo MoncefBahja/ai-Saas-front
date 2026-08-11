@@ -47,11 +47,8 @@ export default function App() {
           <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-lg">
             AI
           </div>
-          <span className="font-bold text-xl tracking-wide">ImageSaaS</span>
         </div>
-        <div className="text-sm text-gray-400 bg-gray-900 border border-gray-800 px-4 py-1.5 rounded-full">
-          الرصيد: <span className="text-indigo-400 font-bold">50 Credit</span>
-        </div>
+       
       </header>
 
       {/* Main Content */}
@@ -61,7 +58,7 @@ export default function App() {
             تحويل الأفكار إلى صور بذكاء عالٍ
           </h1>
           <p className="text-gray-400 text-sm">
-            اكتب وصفك بالدارجة المغربية أو الإنجليزية واحصل على صور فائقة الدقة خلال ثوانٍ.
+            اكتب وصفك باللغة العربية أو الإنجليزية واحصل على صور فائقة الدقة خلال ثوانٍ.
           </p>
         </div>
 
@@ -71,7 +68,7 @@ export default function App() {
             <form onSubmit={handleGenerate} className="space-y-5">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  وصف الصورة (Prompt)
+                  وصف الصورة 
                 </label>
                 <textarea
                   rows="4"
@@ -84,7 +81,7 @@ export default function App() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  قياس الصورة (Aspect Ratio)
+                  قياس الصورة 
                 </label>
                 <div className="grid grid-cols-3 gap-3">
                   {['1:1', '16:9', '9:16'].map((ratio) => (
